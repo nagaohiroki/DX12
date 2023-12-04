@@ -7,6 +7,7 @@ public:
   virtual ~Window();
   void Execute();
 private:
-  HWND m_hWnd;
+  HWND m_hWnd = nullptr;
   bool Create(int w, int h, const std::tstring& name);
+  bool ProccessWindow();
 };

@@ -15,12 +15,24 @@
     <ClInclude Include="Source\stdafx.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GraphicDevice.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Logger.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Window.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphicDevice.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Logger.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

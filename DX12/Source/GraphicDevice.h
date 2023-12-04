@@ -10,8 +10,8 @@ class RtvHeap {
 public:
   RtvHeap();
   virtual ~RtvHeap();
-  bool Create(ID3D12Device8 *device, int numDescriptors);
-  int CreateRTV(ID3D12Device8 *device, ID3D12Resource *resource);
+  bool Create(ID3D12Device *device, int numDescriptors);
+  int CreateRTV(ID3D12Device *device, ID3D12Resource *resource);
   D3D12_CPU_DESCRIPTOR_HANDLE GetHandle(int index) const;
 
 private:
@@ -31,12 +31,12 @@ private:
   RtvHeap rtv;
   Microsoft::WRL::ComPtr<ID3D12Device8> device = nullptr;
   Microsoft::WRL::ComPtr<IDXGIFactory6> factory = nullptr;
-  Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain = nullptr;
-  Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue = nullptr;
   Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator = nullptr;
   Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> commandList = nullptr;
-  Microsoft::WRL::ComPtr<ID3D12Fence> fence = nullptr;
+  Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue = nullptr;
+  Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain = nullptr;
   std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> backBuffers;
+  Microsoft::WRL::ComPtr<ID3D12Fence> fence = nullptr;
   bool CreateDevice();
   bool CreateFactory();
   bool CreateCommandList();
@@ -46,4 +46,6 @@ private:
   void WaitForCommandQueue();
   void SetBarrier(ID3D12Resource *resource, D3D12_RESOURCE_STATES beforeState,
                   D3D12_RESOURCE_STATES afterState);
+
+  void EnableDebugLayer();
 };

@@ -2,7 +2,7 @@
 #include "Logger.h"
 RtvHeap::RtvHeap() {}
 RtvHeap::~RtvHeap() {}
-bool RtvHeap::Create(ID3D12Device8 *device, int numDescriptors) {
+bool RtvHeap::Create(ID3D12Device *device, int numDescriptors) {
   D3D12_DESCRIPTOR_HEAP_DESC desc = {};
   desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
   desc.NumDescriptors = numDescriptors;
@@ -16,10 +16,10 @@ bool RtvHeap::Create(ID3D12Device8 *device, int numDescriptors) {
       device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
   return true;
 }
-int RtvHeap::CreateRTV(ID3D12Device8 *device, ID3D12Resource *resource) {
+int RtvHeap::CreateRTV(ID3D12Device *device, ID3D12Resource *resource) {
   D3D12_CPU_DESCRIPTOR_HANDLE handle =
       rtvHeap->GetCPUDescriptorHandleForHeapStart();
-  handle.ptr += nextRegistNumber * rtvDescriptorSize;
+  handle.ptr += (UINT64)nextRegistNumber * rtvDescriptorSize;
 
   D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
   rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -39,6 +39,9 @@ bool GraphicDevice::Create(HWND hWnd, UINT width, UINT height) {
   if (!CreateFactory()) {
     return false;
   }
+#if _DEBUG
+  EnableDebugLayer();
+#endif
   if (!CreateDevice()) {
     return false;
   }
@@ -66,7 +69,8 @@ bool GraphicDevice::CreateFactory() {
 #ifdef _DEBUG
   flagDXGI = DXGI_CREATE_FACTORY_DEBUG;
 #endif
-  if (FAILED(CreateDXGIFactory2(flagDXGI, IID_PPV_ARGS(&factory)))) {
+  if (FAILED(
+          CreateDXGIFactory2(flagDXGI, IID_PPV_ARGS(factory.GetAddressOf())))) {
     Logger::Log(_T("failed to create factory"));
     return false;
   }
@@ -89,6 +93,7 @@ bool GraphicDevice::CreateDevice() {
     for (D3D_FEATURE_LEVEL lv : levels) {
       if (D3D12CreateDevice(adapter.Get(), lv, IID_PPV_ARGS(&device)) == S_OK) {
         Logger::Log(_T("success to create device"));
+        Logger::Log(desc.Description);
         return true;
       }
     }
@@ -127,7 +132,6 @@ bool GraphicDevice::CreateSwapChain(HWND hWnd, UINT width, UINT height) {
   desc.Height = height;
   desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
   desc.SampleDesc.Count = 1;
-  desc.SampleDesc.Quality = 0;
   desc.BufferUsage = DXGI_USAGE_BACK_BUFFER;
   desc.BufferCount = 2;
   desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
@@ -138,9 +142,6 @@ bool GraphicDevice::CreateSwapChain(HWND hWnd, UINT width, UINT height) {
     Logger::Log(_T("failed to create swap chain"));
     return false;
   }
-  if (FAILED(factory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER))) {
-    Logger::Log(_T("failed to make window association"));
-  }
   return true;
 }
 bool GraphicDevice::CreateSwapChainRTV() {
@@ -150,6 +151,7 @@ bool GraphicDevice::CreateSwapChainRTV() {
       Logger::Log(_T("failed to get buffer"));
       return false;
     }
+    rtv.CreateRTV(device.Get(), backBuffers[i].Get());
   }
   Logger::Log(_T("success to get buffer"));
   return true;
@@ -208,4 +210,11 @@ void GraphicDevice::ScreenFlip() {
   commandAllocator->Reset();
   commandList->Reset(commandAllocator.Get(), nullptr);
   swapChain->Present(1, 0);
+}
+void GraphicDevice::EnableDebugLayer() {
+  ID3D12Debug *pDebugLayer = nullptr;
+
+  D3D12GetDebugInterface(IID_PPV_ARGS(&pDebugLayer));
+  pDebugLayer->EnableDebugLayer();
+  pDebugLayer->Release();
 }

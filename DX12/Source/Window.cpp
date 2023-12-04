@@ -1,19 +1,13 @@
 #include "Window.h"
 #include "GraphicDevice.h"
 #include "Logger.h"
-int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd) {
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
+                   _In_ LPSTR lpCmdLine, _In_ int nShowCmd) {
+  _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+  CoInitializeEx(nullptr, COINIT_MULTITHREADED);
   Window w;
   w.Execute();
-  return 0;
-}
-LRESULT WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-  switch (uMsg) {
-  case WM_DESTROY:
-    PostQuitMessage(0);
-    return 0;
-  default:
-    return DefWindowProc(hWnd, uMsg, wParam, lParam);
-  }
+  CoUninitialize();
   return 0;
 }
 Window::Window() {}
@@ -40,7 +34,7 @@ bool Window::Create(int w, int h, const std::tstring &name) {
   HINSTANCE hInstance = GetModuleHandle(nullptr);
   WNDCLASSEX wcex = {0};
   wcex.cbSize = sizeof(WNDCLASSEX);
-  wcex.lpfnWndProc = WindowProc;
+  wcex.lpfnWndProc = Window::WindowProc;
   wcex.lpszClassName = name.c_str();
   wcex.hInstance = hInstance;
   if (!RegisterClassEx(&wcex)) {
@@ -61,11 +55,24 @@ bool Window::Create(int w, int h, const std::tstring &name) {
 bool Window::ProccessWindow() {
   MSG msg = {0};
   while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-    if (msg.message == WM_QUIT) {
+    switch (msg.message) {
+    case WM_QUIT:
       return false;
+    default:
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
+      break;
     }
-    TranslateMessage(&msg);
-    DispatchMessage(&msg);
   }
   return true;
+}
+LRESULT Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+  switch (uMsg) {
+  case WM_DESTROY:
+    PostQuitMessage(0);
+    return 0;
+  default:
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
+  }
+  return 0;
 }

@@ -25,6 +25,10 @@ public:
   virtual ~GraphicDevice();
   bool Create(HWND hWnd, UINT width, UINT height);
   void ScreenFlip();
+  ID3D12GraphicsCommandList6 *GetCommandList() const {
+    return commandList.Get();
+  }
+  ID3D12Device8 *GetDevice() const { return device.Get(); }
 
 private:
   UINT64 fenceValue = 0;

@@ -4,6 +4,12 @@
     <Filter Include="Source">
       <UniqueIdentifier>{d8af39ed-1c85-455d-96f9-8be375e6d50b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset">
+      <UniqueIdentifier>{ed571161-9c3b-4ebc-88ce-fa8902f6b492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Shader">
+      <UniqueIdentifier>{b8b90262-60c1-4f6e-8679-7b3f9bf824ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h">
@@ -21,6 +27,13 @@
     <ClInclude Include="Source\Logger.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mesh.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RootSignature.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Pipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Window.cpp">
@@ -35,5 +48,20 @@
     <ClCompile Include="Source\Logger.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Mesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RootSignature.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Asset\Shader\VS.hlsl">
+      <Filter>Asset\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Asset\Shader\PS.hlsl">
+      <Filter>Asset\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

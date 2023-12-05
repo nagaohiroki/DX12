@@ -131,6 +131,9 @@
   <ItemGroup>
     <ClInclude Include="Source\GraphicDevice.h" />
     <ClInclude Include="Source\Logger.h" />
+    <ClInclude Include="Source\Mesh.h" />
+    <ClInclude Include="Source\Pipeline.h" />
+    <ClInclude Include="Source\RootSignature.h" />
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\tstring.h" />
     <ClInclude Include="Source\Window.h" />
@@ -138,13 +141,22 @@
   <ItemGroup>
     <ClCompile Include="Source\GraphicDevice.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\Pipeline.cpp" />
+    <ClCompile Include="Source\RootSignature.cpp" />
     <ClCompile Include="Source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Asset\Shader\PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Asset\Shader\VS.hlsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

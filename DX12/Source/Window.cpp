@@ -15,10 +15,13 @@ Window::Window() {}
 Window::~Window() {}
 
 void Window::Execute() {
-  const std::tstring name = _T("DX12");
+  const tstring name = _T("DX12");
   const UINT width = 1920;
   const UINT height = 1080;
   Create(width, height, name);
+
+  Logger::Log(_T("fps : %d"), 60);
+  Logger::Log(_T("%dx%d"), width, height);
   GraphicDevice graphicDevice;
   if (!graphicDevice.Create(m_hWnd, width, height)) {
     return;
@@ -30,7 +33,7 @@ void Window::Execute() {
     graphicDevice.ScreenFlip();
   }
 }
-bool Window::Create(int w, int h, const std::tstring &name) {
+bool Window::Create(int w, int h, const tstring &name) {
   HINSTANCE hInstance = GetModuleHandle(nullptr);
   WNDCLASSEX wcex = {0};
   wcex.cbSize = sizeof(WNDCLASSEX);

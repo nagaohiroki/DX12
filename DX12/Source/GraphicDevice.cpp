@@ -92,8 +92,7 @@ bool GraphicDevice::CreateDevice() {
     adapter->GetDesc(&desc);
     for (D3D_FEATURE_LEVEL lv : levels) {
       if (D3D12CreateDevice(adapter.Get(), lv, IID_PPV_ARGS(&device)) == S_OK) {
-        Logger::Log(_T("success to create device"));
-        Logger::Log(desc.Description);
+        Logger::Log(_T("success to create device %s"), desc.Description);
         return true;
       }
     }

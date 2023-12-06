@@ -9,7 +9,7 @@ public:
 
 private:
   HWND m_hWnd = nullptr;
-  bool Create(int w, int h, const std::tstring &name);
+  bool Create(int w, int h, const tstring &name);
   bool ProccessWindow();
   static LRESULT WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };

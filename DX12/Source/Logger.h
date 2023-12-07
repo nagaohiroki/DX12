@@ -10,8 +10,6 @@ public:
   static void Log(const tstring &str, Args... args) {
     Log(tformat(str, args...).c_str());
   }
-
 private:
   static void Line();
-  static tstring record;
 };

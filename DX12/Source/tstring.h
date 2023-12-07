@@ -13,7 +13,7 @@ tstring to_tstr(const std::string &str);
 tstring to_tstr(const std::wstring &str);
 template <typename... Args> tstring tformat(const tstring &str, Args... args) {
   size_t size = 1024;
-  tstring buf(size, 0);
-  _sntprintf_s(&buf[0], size, size, str.c_str(), args...);
-  return buf;
+  tstring result(size, 0);
+  size_t ret = _sntprintf_s(&result[0], size, size, str.c_str(), args...);
+  return result;
 }

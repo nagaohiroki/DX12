@@ -19,9 +19,6 @@ void Window::Execute() {
   const UINT width = 1920;
   const UINT height = 1080;
   Create(width, height, name);
-
-  Logger::Log(_T("fps : %d"), 60);
-  Logger::Log(_T("%dx%d"), width, height);
   GraphicDevice graphicDevice;
   if (!graphicDevice.Create(m_hWnd, width, height)) {
     return;

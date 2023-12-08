@@ -30,9 +30,6 @@
     <ClInclude Include="Source\Mesh.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RootSignature.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Pipeline.h" />
   </ItemGroup>
   <ItemGroup>
@@ -49,9 +46,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RootSignature.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Pipeline.cpp" />
